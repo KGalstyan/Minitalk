@@ -22,6 +22,11 @@ void	ft_bit(int x)
 	bit++;
 	if (bit == 8)
 	{
+		// if(i > 127)
+		// {
+		// 	write(2, "ERROR", 5);
+		// 	exit(1);
+		// }
 		write(1, &i, 1);
 		bit = 0;
 		i = 0;
