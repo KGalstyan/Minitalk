@@ -54,7 +54,7 @@ void	ft_send_signal(int pid, char *str)
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);
-			usleep(500);
+			usleep(75);
 			bit++;
 		}
 		printf("\n");
@@ -71,9 +71,6 @@ int	main(int argc, char **argv)
 		printf("Error: wrong number of arguments\n");
 		return (0);
 	}
-	// if(!check_input(argv[1]))
-	// {
-	// }
 	pid = ft_atoi(argv[1]);
 	ft_send_signal(pid, argv[2]);
 	ft_send_signal(pid, "\n");

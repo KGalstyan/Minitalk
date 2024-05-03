@@ -6,13 +6,13 @@
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:18:37 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/05/02 19:46:38 by kgalstya         ###   ########.fr       */
+/*   Updated: 2024/05/03 21:54:22 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int	ft_atoi(const char *nptr)
+int	ft_atoi_bon(const char *nptr)
 {
 	int	num;
 	int	sign;
@@ -39,7 +39,7 @@ int	ft_atoi(const char *nptr)
 	return (num * sign);
 }
 
-void	ft_send_signal(int pid, char *str)
+void	ft_send_signal_bon(int pid, char *str)
 {
 	int	bit;
 	int	i;
@@ -54,11 +54,18 @@ void	ft_send_signal(int pid, char *str)
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);
-			usleep(500);
+			usleep(75);
 			bit++;
 		}
 		i++;
 	}
+	signal(SIGUSR1, messege_is_send);
+}
+
+void	messege_is_send(int y)
+{
+	if (y == SIGUSR1)
+		write(1, "SENT\n", 5);
 }
 
 int	main(int argc, char **argv)
@@ -70,8 +77,8 @@ int	main(int argc, char **argv)
 		printf("Error: wrong number of arguments\n");
 		return (0);
 	}
-	pid = ft_atoi(argv[1]);
-	ft_send_signal(pid, argv[2]);
-	ft_send_signal(pid, "\n");
+	pid = ft_atoi_bon(argv[1]);
+	ft_send_signal_bon(pid, argv[2]);
+	ft_send_signal_bon(pid, "\n");
 	return (0);
 }

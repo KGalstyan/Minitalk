@@ -11,7 +11,8 @@ SERVERF = server.c
 CLIENTBONF = client_bonus.c
 SERVERBONF = server_bonus.c
 
-#PRINTF = libftprintf.a
+#PRINTF = ./Printf
+#PRINTFA = ./Printf/libftprintf.a
 
 CLIENTO = ${CLIENTF:.c=.o}
 
@@ -21,7 +22,10 @@ CLIENTBONFO = ${CLIENTBONF:.c=.o}
 
 SERVERBONFO = ${SERVERBONF:.c=.o}
 
-all: $(CLIENT) $(SERVER)
+#PRINTF_MAKE : $(PRINTF)
+#	MAKE -C $(PRINTF)
+
+all: $(CLIENT) $(SERVER) 
 
 $(SERVER): $(SERVERO) $(CLIENTO) minitalk.h Makefile
 	@$(CC) $(CFLAGS) $(SERVERO) -o $(SERVER)
