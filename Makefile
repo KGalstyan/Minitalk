@@ -1,52 +1,41 @@
 CLIENT = client
 SERVER = server
-SERVERBONUS = server_bon
-CLIENTBONUS = client_bon
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 CLIENTF = client.c 
 SERVERF = server.c
-CLIENTBONF = client_bonus.c
-SERVERBONF = server_bonus.c
 
-#PRINTF = ./Printf
-#PRINTFA = ./Printf/libftprintf.a
+PRINTF = ./Printf
+PRINTFA = ./Printf/libftprintf.a
 
 CLIENTO = ${CLIENTF:.c=.o}
 
 SERVERO = ${SERVERF:.c=.o}
 
-CLIENTBONFO = ${CLIENTBONF:.c=.o}
+CLIENTO += $(PRINTFA)
+SERVERO += $(PRINTFA)
 
-SERVERBONFO = ${SERVERBONF:.c=.o}
-
-#PRINTF_MAKE : $(PRINTF)
-#	MAKE -C $(PRINTF)
-
-all: $(CLIENT) $(SERVER) 
+all:  Printfmake $(CLIENT) $(SERVER)
 
 $(SERVER): $(SERVERO) $(CLIENTO) minitalk.h Makefile
-	@$(CC) $(CFLAGS) $(SERVERO) -o $(SERVER)
+		@$(CC) $(CFLAGS) $(SERVERO) -o $(SERVER)
 
 $(CLIENT): $(SERVERO) $(CLIENTO) minitalk.h Makefile
-	@$(CC) $(CFLAGS) $(CLIENTO) -o $(CLIENT)
+		@$(CC) $(CFLAGS) $(CLIENTO) -o $(CLIENT)
 
-bonus: $(SERVERBONUS) $(CLIENTBONUS) 
+Printfmake : $(PRINTF)
+	MAKE -C $(PRINTF)
 
-$(SERVERBONUS): $(SERVERBONFO) $(CLIENTBONFO) minitalk.h Makefile
-	@$(CC) $(CFLAGS) $(SERVERBONFO) -o $(SERVERBONUS)
-
-$(CLIENTBONUS): $(CLIENTBONFO) $(SERVERBONFO) minitalk.h Makefile
-	@$(CC) $(CFLAGS) $(CLIENTBONFO) -o $(CLIENTBONUS)
-
-clean: 
+clean:
+	$(MAKE) -C $(PRINTF) clean
 	-rm -rf $(SERVERO) $(CLIENTO)
 
-fclean: 
-	-rm -rf $(SERVER) $(CLIENT) $(SERVERO) $(CLIENTO) $(CLIENTBONUS) $(SERVERBONUS) $(SERVERBONFO) $(CLIENTBONFO)
+fclean: clean
+	$(MAKE) -C $(PRINTF) fclean
+	-rm -rf $(SERVER) $(CLIENT)
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re Printfmake

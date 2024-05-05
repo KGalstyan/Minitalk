@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kgalstya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/22 16:31:34 by kgalstya          #+#    #+#             */
-/*   Updated: 2024/04/22 16:34:37 by kgalstya         ###   ########.fr       */
+/*   Created: 2024/05/02 18:18:37 by kgalstya          #+#    #+#             */
+/*   Updated: 2024/05/04 19:56:12 by kgalstya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,15 @@ void	ft_send_signal(int pid, char *str)
 			usleep(75);
 			bit++;
 		}
-		printf("\n");
+		signal(SIGUSR1, messege_is_send);
 		i++;
 	}
+}
+
+void	messege_is_send(int y)
+{
+	if (y == SIGUSR1)
+		write(1, "SENT\n", 5);
 }
 
 int	main(int argc, char **argv)
@@ -68,7 +74,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 3)
 	{
-		printf("Error: wrong number of arguments\n");
+		write(2, "Error: wrong number of arguments\n", 33);
 		return (0);
 	}
 	pid = ft_atoi(argv[1]);
